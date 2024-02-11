@@ -82,3 +82,19 @@ export const updateUser = (req: IncomingMessage, res: ServerResponse) => {
     });
 };
 
+export const deleteUser = (req: IncomingMessage, res: ServerResponse) => {
+    const userId = req.url!.split('/')[3];
+    const userIndex = users.findIndex((user) => user.id === userId);
+    if (!uuidValidate(userId)) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Invalid userId' }));
+    } else if (userIndex === -1) {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'User not found' }));
+    } else {
+        users.splice(userIndex, 1);
+        res.writeHead(204);
+        res.end();
+    }
+};
+
