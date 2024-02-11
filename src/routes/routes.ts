@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { getAllUsers, getUserById, createUser } from '../handlers/usersHandlers';
+import { getAllUsers, getUserById, createUser, updateUser } from '../handlers/usersHandlers';
 
 export const requestHandler = (req: IncomingMessage, res: ServerResponse) => {
     const { method, url } = req;
@@ -21,6 +21,8 @@ export const requestHandler = (req: IncomingMessage, res: ServerResponse) => {
             }
         } else if (method === 'POST') {
             createUser(req, res);
+        } else if (method === 'PUT') {
+            updateUser(req, res);
         } else {
             notFound(req, res);
         }
