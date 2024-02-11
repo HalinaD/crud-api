@@ -1,5 +1,5 @@
 import http from 'http';
-import { requestHandler } from '../src/routes/routes';
+import { requestHandler } from './routes/routes';
 
 const PORT = process.env.PORT || 4000;
 
