@@ -1,0 +1,52 @@
+import { IncomingMessage, ServerResponse } from 'http';
+import { v4 as uuidv4, validate as uuidValidate } from 'uuid';
+import { User } from '../user/user';
+
+let users: User[] = [];
+
+export const getAllUsers = (req: IncomingMessage, res: ServerResponse) => {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(users));
+};
+
+export const getUserById = (req: IncomingMessage, res: ServerResponse, userId: string) => {
+    if (!uuidValidate(userId)) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Invalid userId' }));
+        return;
+    }
+    const user = users.find((user) => user.id === userId);
+    if (!user) {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'User not found' }));
+    } else {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(user));
+    }
+};
+
+export const createUser = (req: IncomingMessage, res: ServerResponse) => {
+    let body = '';
+    req.on('data', (chunk) => {
+        body += chunk.toString();
+    });
+    req.on('end', () => {
+        const { username, age, hobbies }: User = JSON.parse(body);
+
+        if (!username || !age || !hobbies) {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: 'Username, age, and hobbies are required fields' }));
+        } else {
+            const newUser: User = {
+                id: uuidv4(),
+                username,
+                age,
+                hobbies,
+            };
+            users.push(newUser);
+            res.writeHead(201, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(newUser));
+        }
+    });
+};
+
