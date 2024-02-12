@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint \"src/**/*.ts\" --fix",
     "build": "webpack --config webpack.config.ts",
     "start:dev": "ts-node-dev src/index.ts",
     "start:prod": "npm run build && node dist/bundle.js",
