@@ -8,5 +8,5 @@ const PORT = process.env.PORT || 4000;
 const server = http.createServer(requestHandler);
 
 server.listen(PORT, () => {
-    console.log(`Server is up and running on port ${PORT}`);
+  console.log(`Server is up and running on port ${PORT}`);
 });
