@@ -172,3 +172,11 @@ The API provides the following endpoints:
         -   **Body:** `{ "message": "Invalid userID" }`
     -   **Status Code:** 404 Not Found
         -   **Body:** `{ "message": "User not found" }`
+
+## Testing
+
+The repository includes tests for the API. You can run the tests using the following command:
+
+#### bash
+
+```npm test```
